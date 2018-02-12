@@ -1,5 +1,6 @@
 package com.rex.testcach.testcach;
 
+import net.spy.memcached.CASValue;
 import net.spy.memcached.internal.OperationFuture;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,13 +24,27 @@ public class TestcachApplication {
 			System.out.println("Connection to server sucessful.");
 
 			// 存储数据
-			OperationFuture fo = mcc.set("runoob", 900, "Free Education");
+			OperationFuture fo = mcc.set("Jeo", 900, "Harvard");
+			
 
 			// 查看存储状态
 			System.out.println("set status:" + fo.get());
 
 			// 输出值
-			System.out.println("runoob value in cache - " + mcc.get("runoob"));
+			System.out.println(" value in cache - " + mcc.get("Jeo"));
+
+
+			fo = mcc.set("Mickle", 900, "stanford");
+			// 输出值
+			System.out.println(" value in cache - " + mcc.get("Mickle"));
+
+
+			// 通过 gets 方法获取 CAS token（令牌）
+			CASValue casValue = mcc.gets("Mickle");
+
+			// 输出 CAS token（令牌） 值
+			System.out.println("CAS value in cache - " + casValue);
+
 
 
 			// 关闭连接
